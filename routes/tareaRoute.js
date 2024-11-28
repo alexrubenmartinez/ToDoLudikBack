@@ -3,7 +3,7 @@ const router = express.Router()
 const tareaController = require('../controller/tareaController')
 const authenticate = require('../middleware/authenticate')
 
-// Rutas de tareas
+
 router.post('/crearTarea', authenticate.authenticate, tareaController.crearTarea)
 router.get('/obtenerTareas', authenticate.authenticate, tareaController.obtenerTareas)
 router.get('/obtenerTarea/:id', authenticate.authenticate, tareaController.obtenerTareaPorId)

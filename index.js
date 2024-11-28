@@ -1,24 +1,24 @@
-//conf y rutas
+require('dotenv').config()
 let express = require('express')
 let app = express()
-let port = process.env.PORT || 3001
+let port = process.env.PORT
+let cors_origin = process.env.CORS_ORIGIN
+let bd_uri = process.env.DB_URI
 let tareaRoute = require('./routes/tareaRoute')
 let usuarioRoute = require('./routes/usuarioRoute')
 let mongoose = require('mongoose')
-const cors = require('cors');
+const cors = require('cors')
 
+app.use(
+  cors({
+    origin: cors_origin,
+  })
+)
 
-// Allow requests from localhost:3000
-app.use(cors({
-    origin: 'http://localhost:3000', // or '*' to allow all origins
-  }));
+app.use(express.json())
 
-// Middleware para parsear cuerpos JSON
-app.use(express.json()) // Necesario para que req.body funcione
-
-//conexion a mongodb
-mongoose
-  .connect('mongodb://localhost:27017/todoback', {
+mongoose 
+  .connect(bd_uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -32,7 +32,6 @@ mongoose
 app.use('/tarea', tareaRoute)
 app.use('/usuario', usuarioRoute)
 
-//inicio del servidor
 app.listen(port, () => {
   console.log(`Servidor corriendo en el puerto ${port}`)
 })
