@@ -11,7 +11,9 @@ const cors = require('cors')
 
 app.use(
   cors({
-    origin: cors_origin,
+    origin: 'https://to-do-ludik.vercel.app', 
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true
   })
 )
 
