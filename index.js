@@ -5,6 +5,13 @@ let port = process.env.PORT || 3001
 let tareaRoute = require('./routes/tareaRoute')
 let usuarioRoute = require('./routes/usuarioRoute')
 let mongoose = require('mongoose')
+const cors = require('cors');
+
+
+// Allow requests from localhost:3000
+app.use(cors({
+    origin: 'http://localhost:3000', // or '*' to allow all origins
+  }));
 
 // Middleware para parsear cuerpos JSON
 app.use(express.json()) // Necesario para que req.body funcione

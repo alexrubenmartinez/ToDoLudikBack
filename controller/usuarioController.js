@@ -32,6 +32,44 @@ let crearUsuario = async function (req, res) {
   }
 }
 
+let loginUsuario = async function (req, res) {
+  try {
+    let { email, password } = req.body
+
+    // Verificar si el correo existe
+    let usuario = await Usuario.findOne({ email: email })
+    console.log(usuario)
+
+    if (!usuario) {
+      return res.status(404).send({ message: 'Usuario no encontrado' })
+    }
+
+    // Comparar la contraseña ingresada con la contraseña encriptada en la base de datos
+    const passwordMatch = await Bcrypt.compare(password, usuario.password)
+
+    if (!passwordMatch) {
+      return res.status(400).send({ message: 'Contraseña incorrecta' })
+    }
+
+    // Si las credenciales son correctas, generar el token JWT
+    const token = jwt.createToken(usuario)
+
+    // Retornar respuesta con el token
+    res.status(200).send({
+      message: 'Usuario autenticado',
+      data: usuario,
+      token: token,
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(500).send({
+      message: 'Error al iniciar sesión',
+      error: error.message,
+    })
+  }
+}
+
 module.exports = {
   crearUsuario,
+  loginUsuario,
 }

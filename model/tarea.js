@@ -13,6 +13,7 @@ let tareaSchema = Schema({
   },
   fechaCreacion: { type: Date, default: Date.now, required: true },
   fechaModificacion: { type: Date, default: Date.now, required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 
 })
 
